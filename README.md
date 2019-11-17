@@ -11,12 +11,14 @@ Ideas for extra features:
 How to use GitHub: 
 Firstly download git here: https://git-scm.com/downloads
 
-Getting started:
+Getting started and general commands:
 1) Open command prompt
-2) Change directory to where you want the repository (using cd [directory] or cd ..)
-3) Use the command below to copy the repository into your directory (I think you have to do this everytime someone makes a change)
+2) Change directory to where you want the repository in command prompt (using cd [directory] or cd ..)
+3) Use the command below to copy the repository into your directory
             git clone https://github.com/IwanBevans/- 
 4) Use 'git status' to track any changes you have made
+5) Use 'git pull' to download any changes other people have uploaded
+6) Use 'git' to see all the other commands
 
 To upload a changed file
 1) Use 'git add [file]' to upload the file to the repo, then check the changes using 'git status'
@@ -28,4 +30,5 @@ git rm file1.txt
 git commit -m "remove file1.txt"
 git push
 
-Tutorial I watched: https://www.youtube.com/watch?v=0fKg7e37bQE
+Tutorial I watched: https://www.youtube.com/watch?v=0fKg7e37bQE 
+Merge conflicts @ 15:30
