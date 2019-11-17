@@ -26,9 +26,9 @@ To upload a changed file
 3) Then push the changes (uploades them to GitHub): git push
 
 To delete a file:
-git rm file1.txt
-git commit -m "remove file1.txt"
-git push
+1) git rm file1.txt
+2) git commit -m "remove file1.txt"
+3) git push
 
 Tutorial I watched: https://www.youtube.com/watch?v=0fKg7e37bQE 
 Merge conflicts @ 15:30
