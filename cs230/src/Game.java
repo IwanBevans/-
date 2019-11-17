@@ -24,7 +24,7 @@ public class Game extends Application{
 	Player player;
 	Canvas canvas;
 	VBox inventory;
-	Label message;
+	VBox message;
 	
 	public void start(Stage stage) {
 		// Level needs to be set to whatever level the player chooses
@@ -32,11 +32,18 @@ public class Game extends Application{
 		
 		level = new Level("level1.txt");
 		player = new Player(level);
+		message = new VBox();
 		
 		// creates the borderpane used for the game's gui and the canvas of all the tile images
+		stage.setTitle("Game"); // rename to name of game
 		BorderPane root = new BorderPane();
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		root.setLeft(canvas);
+		
+		// creates the help message box
+		message.setLayoutX(CANVAS_WIDTH);
+		message.setLayoutY(CANVAS_HEIGHT);
+		root.getChildren().add(message);
 		
 		// creates the savebar at the bottom of the screen and the buttons it uses
 		HBox saveBar = new HBox();
@@ -58,28 +65,6 @@ public class Game extends Application{
 		// creates the inventory sidebar
 		inventory = new VBox(CANVAS_HEIGHT/GRID_CELL_HEIGHT);
 		root.getChildren().add(inventory);
-		inventory.setLayoutX(WINDOW_WIDTH - (WINDOW_WIDTH - CANVAS_WIDTH));
-		Label tokens = new Label("Tokens: ".concat(Integer.toString(player.tokens)));
-		tokens.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT - CANVAS_HEIGHT));
-		inventory.getChildren().add(tokens);
-		Label redKeys = new Label("Red keys: ".concat(Integer.toString(player.redKeys)));
-		redKeys.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT - CANVAS_HEIGHT));
-		inventory.getChildren().add(redKeys);
-		Label blueKeys = new Label("Blue keys: ".concat(Integer.toString(player.blueKeys)));
-		blueKeys.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT - CANVAS_HEIGHT));
-		inventory.getChildren().add(blueKeys);
-		Label greenKeys = new Label("Green keys: ".concat(Integer.toString(player.greenKeys)));
-		greenKeys.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT - CANVAS_HEIGHT));
-		inventory.getChildren().add(greenKeys);
-		Label yellowKeys = new Label("Yellow Keys: ".concat(Integer.toString(player.yellowKeys)));
-		yellowKeys.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT - CANVAS_HEIGHT));
-		inventory.getChildren().add(yellowKeys);
-		Label fireBoots = new Label("Fire Boots: ".concat(String.valueOf(player.fireBoots)));
-		fireBoots.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT - CANVAS_HEIGHT));
-		inventory.getChildren().add(fireBoots);
-		Label flippers = new Label("Flippers: ".concat(String.valueOf(player.flippers)));
-		flippers.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT - CANVAS_HEIGHT));
-		inventory.getChildren().add(flippers);
 		
 		// draws the map
 		draw();
@@ -92,6 +77,9 @@ public class Game extends Application{
 	}
 
 	private void saveGame() {
+		Label messageText = new Label("Game has been saved");
+		messageText.setMinSize(GRID_CELL_WIDTH*2, GRID_CELL_HEIGHT);
+		message.getChildren().add(messageText);
 		// - add save game feature
 	}
 
@@ -126,9 +114,15 @@ public class Game extends Application{
 		for (int x = minX; x < maxX; x ++) {
 			for (int y = minY; y < maxY; y++) {
 				gc.drawImage(level.tiles[x][y].image, (x - maxX + (CANVAS_WIDTH/GRID_CELL_WIDTH)) * GRID_CELL_WIDTH, (y - maxY + (CANVAS_HEIGHT/GRID_CELL_HEIGHT)) * GRID_CELL_HEIGHT);
+				for (int i = 0; i < level.allEnemies.size(); i++) {
+					if (x == level.allEnemies.get(i).locationX && y == level.allEnemies.get(i).locationY) {
+						gc.drawImage(level.allEnemies.get(i).image, (x - maxX + (CANVAS_WIDTH/GRID_CELL_WIDTH)) * GRID_CELL_WIDTH, (y - maxY + (CANVAS_HEIGHT/GRID_CELL_HEIGHT)) * GRID_CELL_HEIGHT);
+					}
+				}
 			}
 		} gc.drawImage(player.playerImage, (player.locationX - maxX + (CANVAS_WIDTH/GRID_CELL_WIDTH))* GRID_CELL_WIDTH, (player.locationY - maxY + (CANVAS_HEIGHT/GRID_CELL_HEIGHT))* GRID_CELL_HEIGHT);
 		
+		inventory.setLayoutX(WINDOW_WIDTH - (WINDOW_WIDTH - CANVAS_WIDTH));
 		inventory.getChildren().clear();
 		Label tokens = new Label("Tokens: ".concat(Integer.toString(player.tokens)));
 		tokens.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT - CANVAS_HEIGHT));
@@ -154,43 +148,103 @@ public class Game extends Application{
 	}
 	
 	public void processKeyEvent(KeyEvent event) {
-		// move all enemies
+		message.getChildren().clear();
 		switch (event.getCode()) {
 		    case DOWN:
 	        	player.moveDown(level);
 	        	if (player.dead) {
-	        		// display lose screen
+	        		Label messageText = new Label("You died!");
+		    		messageText.setMinSize(GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+		    		message.getChildren().add(messageText);
 	        		restartGame();
 	        	} if (player.won) {
 	        		// display win screen
-	        	}
+	        	} if (level.tiles[player.locationX][player.locationY + 1] instanceof Door) {
+	    			Door door = (Door) level.tiles[player.locationX][player.locationY + 1];
+	    			if (door.isLocked) {
+	    				Label messageText = new Label("The door is locked");
+	    	    		messageText.setMinSize(GRID_CELL_WIDTH*2, 30);
+	    	    		message.getChildren().add(messageText);
+	    				if (door instanceof tokenDoor) {
+	    					tokenDoor door2 = (tokenDoor) door;
+	    					Label messageText2 = new Label("Requires ".concat(Integer.toString(door2.amount).concat(" Token(s)")));
+	    					messageText2.setMinSize(GRID_CELL_WIDTH*2, 30);
+	    		    		message.getChildren().add(messageText2);
+	    				}
+	    			}
+	    		}
 	        	break;	
 		    case UP:
 		    	player.moveUp(level);
 		    	if (player.dead) {
-	        		// display lose screen
+		    		Label messageText = new Label("You died!");
+		    		messageText.setMinSize(GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+		    		message.getChildren().add(messageText);
 		    		restartGame();
 	        	} if (player.won) {
 	        		// display win screen
-	        	}
+	        	} if (level.tiles[player.locationX][player.locationY - 1] instanceof Door) {
+	    			Door door = (Door) level.tiles[player.locationX][player.locationY - 1];
+	    			if (door.isLocked) {
+	    				Label messageText = new Label("The door is locked");
+	    	    		messageText.setMinSize(GRID_CELL_WIDTH*2, 30);
+	    	    		message.getChildren().add(messageText);
+	    				if (door instanceof tokenDoor) {
+	    					tokenDoor door2 = (tokenDoor) door;
+	    					Label messageText2 = new Label("Requires ".concat(Integer.toString(door2.amount).concat(" Token(s)")));
+	    					messageText2.setMinSize(GRID_CELL_WIDTH*2, 30);
+	    		    		message.getChildren().add(messageText2);
+	    				}
+	    			}
+	    		}
 		    	break;
 		    case RIGHT:
 		    	player.moveRight(level);
 		    	if (player.dead) {
-	        		// display lose screen
+		    		Label messageText = new Label("You died!");
+		    		messageText.setMinSize(GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+		    		message.getChildren().add(messageText);
 		    		restartGame();
 	        	} if (player.won) {
 	        		// display win screen
-	        	}
+	        	} if (level.tiles[player.locationX + 1][player.locationY] instanceof Door) {
+	    			Door door = (Door) level.tiles[player.locationX + 1][player.locationY];
+	    			if (door.isLocked) {
+	    				Label messageText = new Label("The door is locked");
+	    	    		messageText.setMinSize(GRID_CELL_WIDTH*2, 30);
+	    	    		message.getChildren().add(messageText);
+	    				if (door instanceof tokenDoor) {
+	    					tokenDoor door2 = (tokenDoor) door;
+	    					Label messageText2 = new Label("Requires ".concat(Integer.toString(door2.amount).concat(" Token(s)")));
+	    					messageText2.setMinSize(GRID_CELL_WIDTH*2, 30);
+	    		    		message.getChildren().add(messageText2);
+	    				}
+	    			}
+	    		}
 		    	break;
 		    case LEFT:
 		    	player.moveLeft(level);
 		    	if (player.dead) {
-	        		// display lose screen
+		    		Label messageText = new Label("You died!");
+		    		messageText.setMinSize(GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+		    		message.getChildren().add(messageText);
 		    		restartGame();
 	        	} if (player.won) {
 	        		// display win screen
-	        	}
+	        	} if (level.tiles[player.locationX - 1][player.locationY] instanceof Door) {
+	    			Door door = (Door) level.tiles[player.locationX - 1][player.locationY];
+	    			if (door.isLocked) {
+	    				Label messageText = new Label("The door is locked");
+	    	    		messageText.setMinSize(GRID_CELL_WIDTH*2, 30);
+	    	    		message.getChildren().add(messageText);
+	    				if (door instanceof tokenDoor) {
+	    					tokenDoor door2 = (tokenDoor) door;
+	    					Label messageText2 = new Label("Requires ".concat(Integer.toString(door2.amount).concat(" Token(s)")));
+	    					messageText2.setMinSize(GRID_CELL_WIDTH*2, 30);
+	    		    		message.getChildren().add(messageText2);
+	    				}
+	    			}
+	    		}
 		    	break;
 	        default:
 	        	break;

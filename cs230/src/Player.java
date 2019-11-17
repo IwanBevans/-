@@ -31,6 +31,14 @@ public class Player {
 	
 	public void moveDown(Level level) {
 		if (level.tiles[locationX][locationY+1].isPassable) {
+			for (int x = 0; x < level.allEnemies.size(); x++) {
+				if (level.allEnemies.get(x).locationX == locationX && level.allEnemies.get(x).locationY == locationY+1) {
+					dead = true;
+				} level.allEnemies.get(x).move(level,this);
+				if (level.allEnemies.get(x).locationX == locationX && level.allEnemies.get(x).locationY == locationY+1) {
+					dead = true;
+				}
+			}
 			level.tiles[locationX][locationY+1].onTouch(this);
 			if (level.tiles[locationX][locationY+1] instanceof Door) {
 				Door door = (Door) level.tiles[locationX][locationY+1];
@@ -44,6 +52,14 @@ public class Player {
 	
 	public void moveUp(Level level) {
 		if (level.tiles[locationX][locationY-1].isPassable) {
+			for (int x = 0; x < level.allEnemies.size(); x++) {
+				if (level.allEnemies.get(x).locationX == locationX && level.allEnemies.get(x).locationY == locationY-1) {
+					dead = true;
+				} level.allEnemies.get(x).move(level,this);
+				if (level.allEnemies.get(x).locationX == locationX && level.allEnemies.get(x).locationY == locationY-1) {
+					dead = true;
+				}
+			}
 			level.tiles[locationX][locationY-1].onTouch(this);
 			if (level.tiles[locationX][locationY-1] instanceof Door) {
 				Door door = (Door) level.tiles[locationX][locationY-1];
@@ -57,6 +73,14 @@ public class Player {
 	
 	public void moveRight(Level level) {
 		if (level.tiles[locationX+1][locationY].isPassable) {
+			for (int x = 0; x < level.allEnemies.size(); x++) {
+				if (level.allEnemies.get(x).locationX == locationX+1 && level.allEnemies.get(x).locationY == locationY) {
+					dead = true;
+				} level.allEnemies.get(x).move(level,this);
+				if (level.allEnemies.get(x).locationX == locationX+1 && level.allEnemies.get(x).locationY == locationY) {
+					dead = true;
+				}
+			} 
 			level.tiles[locationX+1][locationY].onTouch(this);
 			if (level.tiles[locationX+1][locationY] instanceof Door) {
 				Door door = (Door) level.tiles[locationX+1][locationY];
@@ -70,6 +94,14 @@ public class Player {
 	
 	public void moveLeft(Level level) {
 		if (level.tiles[locationX-1][locationY].isPassable) {
+			for (int x = 0; x < level.allEnemies.size(); x++) {
+				if (level.allEnemies.get(x).locationX == locationX-1 && level.allEnemies.get(x).locationY == locationY) {
+					dead = true;
+				} level.allEnemies.get(x).move(level,this);
+				if (level.allEnemies.get(x).locationX == locationX-1 && level.allEnemies.get(x).locationY == locationY) {
+					dead = true;
+				}
+			}
 			level.tiles[locationX-1][locationY].onTouch(this);
 			if (level.tiles[locationX-1][locationY] instanceof Door) {
 				Door door = (Door) level.tiles[locationX-1][locationY];

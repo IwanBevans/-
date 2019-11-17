@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Level {
 	int startingLocationX;
@@ -9,8 +10,10 @@ public class Level {
 	int height;
 	Tile[][] tiles;
 	String fileName;
+	ArrayList<Enemy> allEnemies;
 	
 	public Level(String fileName) {
+		this.allEnemies = new ArrayList<Enemy>();
 		this.fileName = fileName;
 		File file = new File(fileName);
 		try { 
@@ -68,7 +71,17 @@ public class Level {
 					tiles[x][y] = new tokenDoor(input.nextInt());
 				} if (tileType.equals("TELEPORTER")) {
 					tiles[x][y] = new Teleporter(input.nextInt(),input.nextInt());
-				} // put in enemies here
+				} if (tileType.equals("DUMBENEMY")) {
+					allEnemies.add(new dumbEnemy(x,y));
+				} if (tileType.equals("WALLENEMY")) {
+					allEnemies.add(new wallEnemy(x,y));
+				} if (tileType.equals("VERTICALENEMY")) {
+					allEnemies.add(new lineEnemyVertical(x,y));
+				} if (tileType.equals("HORIZONTALENEMY")) {
+					allEnemies.add(new lineEnemyHorizontal(x,y));
+				} if (tileType.equals("SMARTENEMY")) {
+					allEnemies.add(new smartEnemy(x,y));
+				}
 			}
 			input.close();
 		} catch (FileNotFoundException e) { // If no file is found 
