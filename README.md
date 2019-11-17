@@ -6,7 +6,7 @@ Ideas for extra features:
 - Having different types of tiles/enemies.
 - Saving the inventory and where player is on the map.
 - A tile that launches you forwards until you hit a wall.
-- Bring up inventory mid game
+- Bring up inventory mid game??
 
 How to use GitHub: 
 Firstly download git here: https://git-scm.com/downloads
