@@ -15,8 +15,8 @@ public class Level {
 	public Level(String fileName) {
 		this.allEnemies = new ArrayList<Enemy>();
 		this.fileName = fileName;
-		File file = new File(fileName);
 		try { 
+			File file = new File(fileName);
 			Scanner input = new Scanner(file);
 			input.useDelimiter("\r\n|,");
 			width = input.nextInt();

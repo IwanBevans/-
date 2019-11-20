@@ -12,6 +12,7 @@ public class tokenTile extends objectTile {
 		if (!this.pickedUp) {
 			player.tokens = player.tokens + 1;
 			this.pickedUp = true;
+			this.isPassableEnemy = true;
 			this.image = new Image("/floor.png");
 		}
 	}

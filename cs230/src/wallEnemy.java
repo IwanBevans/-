@@ -8,7 +8,7 @@ public class wallEnemy extends Enemy {
 	}
 	
 	public void move(Level level,Player player) {
-		if (level.tiles[locationX][locationY - 1] instanceof Wall) {
+		if (!level.tiles[locationX][locationY - 1].isPassableEnemy) {
 			if (level.tiles[locationX+1][locationY].isPassableEnemy) {
 				locationX = locationX + 1;
 			} else if (level.tiles[locationX][locationY+1].isPassableEnemy) {
@@ -16,43 +16,43 @@ public class wallEnemy extends Enemy {
 			} else if (level.tiles[locationX-1][locationY].isPassableEnemy) {
 				locationX = locationX - 1;
 			}
-		} else if (level.tiles[locationX-1][locationY] instanceof Wall) {
+		} else if (!level.tiles[locationX-1][locationY].isPassableEnemy) {
 			if (level.tiles[locationX][locationY-1].isPassableEnemy) {
 				locationY = locationY - 1;
 			} else if (level.tiles[locationX][locationY+1].isPassableEnemy) {
 				locationY = locationY + 1;
 			} 
-		} else if (level.tiles[locationX][locationY + 1] instanceof Wall) {
+		} else if (!level.tiles[locationX][locationY + 1].isPassableEnemy) {
 			if (level.tiles[locationX-1][locationY].isPassableEnemy) {
 				locationX = locationX - 1;
 			} else if (level.tiles[locationX+1][locationY].isPassableEnemy) {
 				locationX = locationX + 1;
 			}
-		} else if (level.tiles[locationX+1][locationY] instanceof Wall) {
+		} else if (!level.tiles[locationX+1][locationY].isPassableEnemy) {
 			if (level.tiles[locationX][locationY+1].isPassableEnemy) {
 				locationY = locationY + 1;
 			} else if (level.tiles[locationX][locationY-1].isPassableEnemy) {
 				locationY = locationY - 1;
 			}
-		} else if (level.tiles[locationX - 1][locationY - 1] instanceof Wall) {
+		} else if (!level.tiles[locationX - 1][locationY - 1].isPassableEnemy) {
 			if (level.tiles[locationX][locationY-1].isPassableEnemy) {
 				locationY = locationY - 1;
 			} else if (level.tiles[locationX-1][locationY].isPassableEnemy) {
 				locationX = locationX - 1;
 			}
-		} else if (level.tiles[locationX -1][locationY + 1] instanceof Wall) {
+		} else if (!level.tiles[locationX -1][locationY + 1].isPassableEnemy) {
 			if (level.tiles[locationX-1][locationY].isPassableEnemy) {
 				locationX = locationX - 1;
 			} else if (level.tiles[locationX][locationY+1].isPassableEnemy) {
 				locationY = locationY + 1;
 			}
-		} else if (level.tiles[locationX + 1][locationY - 1] instanceof Wall) {
+		} else if (!level.tiles[locationX + 1][locationY - 1].isPassableEnemy) {
 			if (level.tiles[locationX+1][locationY].isPassableEnemy) {
 				locationX = locationX + 1;
 			} else if (level.tiles[locationX][locationY-1].isPassableEnemy) {
 				locationY = locationY - 1;
 			}
-		} else if (level.tiles[locationX + 1][locationY + 1] instanceof Wall) {
+		} else if (!level.tiles[locationX + 1][locationY + 1].isPassableEnemy) {
 			if (level.tiles[locationX][locationY+1].isPassableEnemy) {
 				locationY = locationY + 1;
 			} else if (level.tiles[locationX+1][locationY].isPassableEnemy) {

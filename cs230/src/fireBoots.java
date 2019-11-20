@@ -12,6 +12,7 @@ public class fireBoots extends objectTile {
 		if (!this.pickedUp) {
 			player.fireBoots = true;
 			this.pickedUp = true;
+			this.isPassableEnemy = true;
 			this.image = new Image("/floor.png");
 		}
 	}

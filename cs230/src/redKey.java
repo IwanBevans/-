@@ -11,6 +11,7 @@ public class redKey extends objectTile {
 	public void onTouch(Player player) {
 		if (!this.pickedUp) {
 			this.pickedUp = true;
+			this.isPassableEnemy = true;
 			player.redKeys = player.redKeys + 1;
 			this.image = new Image("/floor.png");
 		}

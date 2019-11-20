@@ -12,6 +12,7 @@ public class Flippers extends objectTile {
 		if (!this.pickedUp) {
 			player.flippers = true;
 			this.pickedUp = true;
+			this.isPassableEnemy = true;
 			this.image = new Image("/floor.png");
 		}
 	}
