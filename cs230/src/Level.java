@@ -1,24 +1,30 @@
+// The level class contains a file reader that inputs a file and creates a 2d array of tiles from it
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
+/** The level class*/
 public class Level {
-	int startingLocationX;
-	int startingLocationY;
-	int width;
-	int height;
-	Tile[][] tiles;
-	String fileName;
-	ArrayList<Enemy> allEnemies;
+	private int startingLocationX;
+	private int startingLocationY;
+	private int width;
+	private int height;
+	private Tile[][] tiles;
+	private String fileName;
+	private ArrayList<Enemy> allEnemies;
 	
-	public Level(String fileName) {
-		this.allEnemies = new ArrayList<Enemy>();
-		this.fileName = fileName;
+	/** The constructor and file reader of the level class*/
+	public Level(String inputtedFile) {
+		allEnemies = new ArrayList<Enemy>();
+		fileName = inputtedFile;
 		try { 
 			File file = new File(fileName);
 			Scanner input = new Scanner(file);
 			input.useDelimiter("\r\n|,");
+			if (!input.hasNextInt()) {
+				fileName = input.next();
+			}
 			width = input.nextInt();
 			height = input.nextInt();
 			tiles = new Tile[width][height];
@@ -81,11 +87,52 @@ public class Level {
 					allEnemies.add(new lineEnemyHorizontal(x,y));
 				} if (tileType.equals("SMARTENEMY")) {
 					allEnemies.add(new smartEnemy(x,y));
+				} if (tileType.equals("HELPTILE")) {
+					tiles[x][y] = new helpTile(input.next());
 				}
 			}
 			input.close();
 		} catch (FileNotFoundException e) { // If no file is found 
 			System.out.println("Error file not found");
 		}
+	}
+	/** Returns the location of starting x
+	 * @return int locationX*/
+	public int getStartingLocationX() {
+		return startingLocationX;
+	}
+	/** Returns the location of starting y
+	 * @return startingLocationY*/
+	public int getStartingLocationY() {
+		return startingLocationY;
+	}
+
+	/** Returns the width of the level
+	 * @return int width of level*/
+	public int getWidth() {
+		return width;
+	}
+	/** Returns the height of the level
+	 * @return int height of level*/
+	public int getHeight() {
+		return height;
+	}
+
+	/** Returns the 2d array of tiles
+	 * @return Tile[][] the tiles of the level*/
+	public Tile[][] getTiles() {
+		return tiles;
+	}
+
+	/** Returns string of the filename
+	 * @return String filename*/
+	public String getFileName() {
+		return fileName;
+	}
+
+	/** Returns the arraylist of all enemies
+	 * @return ArrayList<Enemy> all enemies*/
+	public ArrayList<Enemy> getAllEnemies() {
+		return allEnemies;
 	}
 }

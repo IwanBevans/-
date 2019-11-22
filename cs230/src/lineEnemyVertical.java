@@ -1,25 +1,31 @@
+// The vertical enemy class is an enemy type that moves up and down untill it hits a wall and changes direction
+
 import javafx.scene.image.Image;
 
+/** The vertical enemy is another basic enemy types that will move down untill it hits a wall and then turn up*/
 public class lineEnemyVertical extends Enemy{
-	boolean movingUp;
+	private boolean movingUp;
 	
+	/** The constructor of the vertical enemy, takes two locations as inputs*/
 	public lineEnemyVertical(int x,int y) {
-		this.image = new Image("/lineenemy.png");
-		this.locationX = x;
-		this.locationY = y;
+		setImage(new Image("/lineenemy.png"));
+		setLocationX(x);
+		setLocationY(y);
 		this.movingUp = true;
 	}
 
+	/** The momvement function of the vertical enemy moves up untill it can not anymore and then turns down, it knows
+	 * which direction to walk by a boolean*/
 	public void move(Level level,Player player) {
-		if (level.tiles[locationX][locationY-1].isPassableEnemy && movingUp) {
-			locationY = locationY - 1;
+		if (level.getTiles()[getLocationX()][getLocationY()-1].isPassableEnemy() && movingUp) {
+			setLocationY(getLocationY() - 1);
 		} else {
-			if (level.tiles[locationX][locationY+1].isPassableEnemy) {
-				locationY = locationY + 1;
+			if (level.getTiles()[getLocationX()][getLocationY()+1].isPassableEnemy()) {
+				setLocationY(getLocationY() + 1);
 				movingUp = false;
 			} else {
 				movingUp = true;
-				locationY = locationY - 1;
+				setLocationY(getLocationY() - 1);
 			}
 		}
 	}

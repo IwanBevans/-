@@ -1,19 +1,22 @@
 import javafx.scene.image.Image;
 
+/** Blue keys class, contains data relating to the blue key object*/
 public class blueKey extends objectTile {
+	/** Constructor for the blue key object*/
 	public blueKey() {
-		this.image = new Image("/bluekey.png");
-		this.isPassable = true;
-		this.isPassableEnemy = false;
-		this.pickedUp = false;
+		setImage(new Image("/bluekey.png"));
+		setPassable(true);
+		setPassableEnemy(false);
+		setPickedUp(false);
 	}
 	
+	/** The touch function for the blue key object*/
 	public void onTouch(Player player) {
-		if (!this.pickedUp) {
-			this.pickedUp = true;
-			this.isPassableEnemy = true;
-			player.blueKeys = player.blueKeys + 1;
-			this.image = new Image("/floor.png");
+		if (!isPickedUp()) {
+			setPickedUp(true);
+			setPassableEnemy(true);
+			player.setBlueKeys(player.getBlueKeys() + 1);
+			setImage(new Image("/floor.png"));
 		}
 	}
 }

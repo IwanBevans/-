@@ -1,15 +1,18 @@
 import javafx.scene.image.Image;
 
+/** The tile class for the water tile type*/
 public class Water extends Tile{
+	/** The constructor for the water tile class*/
 	public Water() {
-		this.isPassable = true;
-		this.isPassableEnemy = false;
-		this.image = new Image("/water.png");
+		setPassable(true);
+		setPassableEnemy(false);
+		setImage(new Image("/water.png"));
 	}
 	
+	/** The touch method for the water tile clase*/
 	public void onTouch(Player player) {
-		if (!player.flippers) {
-			player.dead = true;
+		if (!player.isFlippers()) {
+			player.setDead(true);
 		}
 	}
 	

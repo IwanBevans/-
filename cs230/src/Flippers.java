@@ -1,19 +1,22 @@
 import javafx.scene.image.Image;
 
+/** The flippers class, contains data relating to the flippers object*/
 public class Flippers extends objectTile {
+	/** The flippers object tile constructor */
 	public Flippers() {
-		this.pickedUp = false;
-		this.isPassable = true;
-		this.isPassableEnemy = false;
-		this.image = new Image("/flippers.png");
+		this.setPickedUp(false);
+		this.setPassable(true);
+		this.setPassableEnemy(false);
+		this.setImage(new Image("/flippers.png"));
 	}
 	
+	/** The touch method for the flippers tile*/
 	public void onTouch(Player player) {
-		if (!this.pickedUp) {
-			player.flippers = true;
-			this.pickedUp = true;
-			this.isPassableEnemy = true;
-			this.image = new Image("/floor.png");
+		if (!this.isPickedUp()) {
+			player.setFlippers(true);
+			this.setPickedUp(true);
+			this.setPassableEnemy(true);
+			this.setImage(new Image("/floor.png"));
 		}
 	}
 

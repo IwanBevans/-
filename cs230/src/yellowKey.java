@@ -1,19 +1,21 @@
 import javafx.scene.image.Image;
-
+/** The yellow key class contains data relating to the yellow key object*/
 public class yellowKey extends objectTile {
+	/** The yellow key object constructor*/
 	public yellowKey() {
-		this.image = new Image("/yellowkey.png");
-		this.isPassable = true;
-		this.isPassableEnemy = false;
-		this.pickedUp = false;
+		setImage(new Image("/yellowkey.png"));
+		setPassable(true);
+		setPassableEnemy(false);
+		setPickedUp(false);
 	}
 	
+	/** The touch method for the yellow key object*/
 	public void onTouch(Player player) {
-		if (!this.pickedUp) {
-			this.pickedUp = true;
-			this.isPassableEnemy = true;
-			player.yellowKeys = player.yellowKeys + 1;
-			this.image = new Image("/floor.png");
+		if (!this.isPickedUp()) {
+			this.setPickedUp(true);
+			this.setPassableEnemy(true);
+			player.setYellowKeys(player.getYellowKeys() + 1);
+			this.setImage(new Image("/floor.png"));
 		}
 	}
 }

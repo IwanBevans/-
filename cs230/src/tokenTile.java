@@ -1,19 +1,22 @@
 import javafx.scene.image.Image;
 
+/** The class for the tokentile object*/
 public class tokenTile extends objectTile {
+	/** The constructor for the tokentile object*/
 	public tokenTile() {
-		this.image = new Image("/token.png");
-		this.isPassable = true;
-		this.isPassableEnemy = false;
-		this.pickedUp = false;
+		this.setImage(new Image("/token.png"));
+		this.setPassable(true);
+		this.setPassableEnemy(false);
+		this.setPickedUp(false);
 	}
 	
+	/** The touch method for the token tile object*/
 	public void onTouch(Player player) {
-		if (!this.pickedUp) {
-			player.tokens = player.tokens + 1;
-			this.pickedUp = true;
-			this.isPassableEnemy = true;
-			this.image = new Image("/floor.png");
+		if (!this.isPickedUp()) {
+			player.setTokens(player.getTokens() + 1);
+			this.setPickedUp(true);
+			this.setPassableEnemy(true);
+			this.setImage(new Image("/floor.png"));
 		}
 	}
 }

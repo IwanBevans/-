@@ -1,19 +1,22 @@
 import javafx.scene.image.Image;
 
+/** Blue door class, contains data relating to the blue door*/
 public class blueKeyDoor extends Door {
+	/** Blue door constructor*/
 	public blueKeyDoor() {
-		this.isPassable = true;
-		this.isPassableEnemy = false;
-		this.isLocked = true;
-		this.image = new Image("/bluekeydoor.png");
+		setPassable(true);
+		setPassableEnemy(false);
+		setLocked(true);
+		setImage(new Image("/bluekeydoor.png"));
 	}
 
+	/** The touch function for the blue door*/
 	public void onTouch(Player player) {
-		if (isLocked && player.blueKeys > 0) {
-			player.blueKeys = player.blueKeys - 1;
-			isLocked = false;
-			isPassableEnemy = true;
-			this.image = new Image("/floor.png");
+		if (isLocked() && player.getBlueKeys() > 0) {
+			player.setBlueKeys(player.getBlueKeys() - 1);
+			setLocked(false);
+			setPassableEnemy(true);
+			this.setImage(new Image("/floor.png"));
 		}
 	}
 }

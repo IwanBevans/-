@@ -1,15 +1,18 @@
 import javafx.scene.image.Image;
 
+/** The fire tile class, contains data relating to the fire tile type*/
 public class Fire extends Tile {
+	/** The fire tile constructor*/
 	public Fire() {
-		this.isPassable = true;
-		this.isPassableEnemy = false;
-		this.image = new Image("/fire.png");
+		setPassable(true);
+		setPassableEnemy(false);
+		setImage(new Image("/fire.png"));
 	}
 	
+	/** The touch function for the fire tile type*/
 	public void onTouch(Player player) {
-		if (!player.fireBoots) {
-			player.dead = true;
+		if (!player.isFireBoots()) {
+			player.setDead(true);
 		}
 	}
 }

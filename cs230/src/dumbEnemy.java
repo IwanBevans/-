@@ -1,56 +1,41 @@
-import javafx.scene.image.Image;
-import java.lang.Math;
+// The dumb enemy will mindlessly walk in the direction of player getting stuck on walls if they get in the way
 
+import javafx.scene.image.Image;
+
+/** Dumb enemys are the most basic enemy type walking directly to the player without thinking about what is in front of them*/
 public class dumbEnemy extends Enemy{
+	/** The constructor for the dumb enemy class*/
 	public dumbEnemy(int x, int y) {
-		this.locationX = x;
-		this.locationY = y;
-		this.image = new Image("/dumbEnemy.png");
+		setLocationX(x);
+		setLocationY(y);
+		setImage(new Image("/dumbEnemy.png"));
 	}
 	
+	/** The dumb enemy movement function calculates the distance of the player in all four directions from the enemy and will walk
+	 * the path with the biggest distance*/
 	public void move(Level level,Player player) {
-		int playerX = player.locationX;
-		int playerY = player.locationY;
-		
-		int difX = playerX - locationX;
-		int difY = playerY - locationY;
-		
-		
-		if (difX < difY) {
-			if (difY < 0 && level.tiles[locationX][locationY-1].isPassableEnemy) {
-				locationY = locationY - 1;
+		boolean isNegativeX = false;
+		boolean isNegativeY = false;
+		int differenceX = getLocationX() - player.getLocationX();
+		int differenceY = getLocationY() - player.getLocationY();
+		if (differenceX < 0) {
+			differenceX = differenceX * -1;
+			isNegativeX = true;
+		} if (differenceY < 0) {
+			differenceY = differenceY * - 1;
+			isNegativeY = true;
+		} if (differenceX > differenceY) {
+			if (!isNegativeX && level.getTiles()[getLocationX()-1][getLocationY()].isPassableEnemy()) {
+				setLocationX(getLocationX() - 1);
+			} else if (isNegativeX && level.getTiles()[getLocationX()+1][getLocationY()].isPassableEnemy()){
+				setLocationX(getLocationX() + 1);
 			}
-			if (difY > 0 && level.tiles[locationX][locationY+1].isPassableEnemy) {
-				locationY = locationY + 1;
+		} else {
+			if (!isNegativeY && level.getTiles()[getLocationX()][getLocationY()-1].isPassableEnemy()) {
+				setLocationY(getLocationY() - 1);
+			} else if (isNegativeY && level.getTiles()[getLocationX()][getLocationY()+1].isPassableEnemy()){
+				setLocationY(getLocationY() + 1);
 			}
-		}
-		
-		if (difY < difX) {
-			if (difX > 0 && level.tiles[locationX+1][locationY].isPassableEnemy) {
-				locationX = locationX + 1;
-			}
-			if (difX < 0 && level.tiles[locationX-1][locationY].isPassableEnemy) {
-				locationX = locationX - 1;
-			}
-			
 		}
 	}
-	
-	
-	
-/*
-	public void move(Level level,Player player) {
-		double move = Math.round(Math.random() * 4);
-		if (move == 0 && level.tiles[locationX-1][locationY].isPassableEnemy) {
-			locationX = locationX - 1;
-		} if (move == 1 && level.tiles[locationX+1][locationY].isPassableEnemy) {
-			locationX = locationX + 1;
-		} if (move == 2 && level.tiles[locationX][locationY-1].isPassableEnemy) {
-			locationY = locationY - 1;
-		} if (move == 3 && level.tiles[locationX][locationY+1].isPassableEnemy) {
-			locationY = locationY + 1;
-		}
-	}
-	
-*/
 }

@@ -1,19 +1,22 @@
 import javafx.scene.image.Image;
 
+/** The fireboots object class, contains data related to the fireboots object*/
 public class fireBoots extends objectTile {
+	/** The fireboots constructor*/
 	public fireBoots() {
-		this.pickedUp = false;
-		this.isPassable = true;
-		this.isPassableEnemy = false;
-		this.image = new Image("/fireboots.png");
+		setPickedUp(false);
+		setPassable(true);
+		setPassableEnemy(false);
+		setImage(new Image("/fireboots.png"));
 	}
 	
+	/** The touch function for the fireboots class*/
 	public void onTouch(Player player) {
-		if (!this.pickedUp) {
-			player.fireBoots = true;
-			this.pickedUp = true;
-			this.isPassableEnemy = true;
-			this.image = new Image("/floor.png");
+		if (!this.isPickedUp()) {
+			player.setFireBoots(true);
+			this.setPickedUp(true);
+			this.setPassableEnemy(true);
+			this.setImage(new Image("/floor.png"));
 		}
 	}
 
