@@ -1,0 +1,30 @@
+20,20
+####################
+#  WWWWWWWWWWWWWWWW#
+# #WWWWWWWWWWWWWWWW#
+# #WWWWWWWWWWWWWWWW#
+# #WWWWWWWWWWWWWWW@#
+# ##################
+# Rw#     ####    r#
+# ###     ####     #
+#  fF     ####     #
+#####     ####     #
+#####     ####     #
+#####FFFFF####     #
+#            #     #
+#            #     #
+#  ########  #     #
+#            #     #
+#            #     #
+#                  #
+#            #ttttt#
+####################
+1,1,START
+5,8,WALLENEMY
+4,13,WALLENEMY
+1,17,HORIZONTALENEMY
+18,17,VERTICALENEMY
+17,13,VERTICALENEMY
+16,17,VERTICALENEMY
+15,13,VERTICALENEMY
+14,17,VERTICALENEMY
