@@ -14,5 +14,5 @@
 #b           W#
 ###############
 6,9,START
-6,7,SMARTENEMY
-13,7,SMARTENEMY
+7,7,SMARTENEMY
+12,7,SMARTENEMY

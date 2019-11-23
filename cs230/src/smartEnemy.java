@@ -39,6 +39,7 @@ public class smartEnemy extends Enemy{
 	// this function takes in the array of all nodes parent locations and goes from the players location to
 	// the current location of the enemy and returns an 2d array of booleans, the true values is the path
 	// the false values is other tiles not in the best path
+	/** Constructs a 2d array of booleans, whose values are true if they are the best possible path*/
 	private boolean[][] reconstructPath(String[][] prev,int currentX,int currentY,int goalX, int goalY, Level level) {
 		boolean[][] path = new boolean[level.getWidth()][level.getHeight()];
 		for (int x = 0; x < level.getHeight(); x++) {
@@ -62,6 +63,7 @@ public class smartEnemy extends Enemy{
 	// This function returns a 2d array of the locations of each nodes parent node, this can be used to
 	// construct the best path from the enemy to the player. The function uses a breadth first search
 	// algorithm
+	/** Returns a 2d array containing the values of all the nodes parent nodes from a level*/
 	private String[][] pathFinder(int currentX, int currentY, Level level) {
 		int[] dr = {-1,1,0,0};
 		int[] dc = {0,0,1,-1};

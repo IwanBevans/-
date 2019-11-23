@@ -521,8 +521,13 @@ public class Game extends Application{
 						} if (level.getTiles()[x][y] instanceof Goal) {
 							line = line + "@";
 						} if (level.getTiles()[x][y] instanceof Teleporter) {
+							line = line + " ";
 							Teleporter teleTile = (Teleporter) level.getTiles()[x][y];
-							extraTiles.add(Integer.toString(x)+","+Integer.toString(y)+"TELEPORTER"+","+Integer.toString(teleTile.getToLocationX())+","+(Integer.toString(teleTile.getToLocationY())));
+							extraTiles.add(Integer.toString(x)+","+Integer.toString(y)+",TELEPORTER"+","+Integer.toString(teleTile.getToLocationX())+","+(Integer.toString(teleTile.getToLocationY())));
+						} if (level.getTiles()[x][y] instanceof helpTile) {
+							line = line + " ";
+							helpTile tile = (helpTile) level.getTiles()[x][y];
+							extraTiles.add(Integer.toString(x)+","+Integer.toString(y)+",HELPTILE"+","+tile.getHelpMessage());
 						}
 					} Files.write(Paths.get(currentUser.getUserName()+"levelsave.txt"), (line).getBytes(), StandardOpenOption.APPEND);
 					Files.write(Paths.get(currentUser.getUserName()+"levelsave.txt"),System.getProperty("line.separator").getBytes(), StandardOpenOption.APPEND);
