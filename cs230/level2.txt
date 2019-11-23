@@ -6,7 +6,7 @@
 #            w#
 #      ########
 #      #      #
-#  t   #      #
+#   t  #      #
 #      #      #
 #             #
 #FFFFFF### ####
@@ -14,5 +14,7 @@
 # t  t #  @   #
 #      #      #
 ###############
-8,7,START
+13,6,START
 10,10,TOKENDOOR,5
+10,8,HELPTILE,In this level you need to unlock this token door in order to reach the goal look for the 5 tokens by using the flippers and fireboots
+4,8,HELPTILE,In order to walk over fire and water you need to get fire boots and flippers or you will get a game over
