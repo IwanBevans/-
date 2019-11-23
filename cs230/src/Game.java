@@ -70,8 +70,7 @@ public class Game extends Application{
 		startTime = System.currentTimeMillis();
 		// creates the canvas used for all the images of the tiles and places it on the pane along with the help message
 		message = new VBox();
-		message.setLayoutX((WINDOW_HEIGHT - CANVAS_HEIGHT)*2);
-		message.setLayoutY(CANVAS_HEIGHT);
+		message.setLayoutY(CANVAS_HEIGHT+GRID_CELL_HEIGHT/5);
 		message.setMinSize(CANVAS_WIDTH, GRID_CELL_HEIGHT*3);
 		BorderPane root = new BorderPane();
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -82,8 +81,10 @@ public class Game extends Application{
 		Button restartButton = new Button("Restart");
 		restartButton.setMinSize((WINDOW_HEIGHT - CANVAS_HEIGHT),(WINDOW_HEIGHT - CANVAS_HEIGHT)/4);
 		Button saveButton = new Button("Quick save");
-		saveBar.getChildren().addAll(restartButton,saveButton);
 		saveButton.setMinSize((WINDOW_HEIGHT - CANVAS_HEIGHT),(WINDOW_HEIGHT - CANVAS_HEIGHT)/4);
+		Button quitButton = new Button("Quit");
+		quitButton.setMinSize((WINDOW_HEIGHT - CANVAS_HEIGHT),(WINDOW_HEIGHT - CANVAS_HEIGHT)/4);
+		saveBar.getChildren().addAll(restartButton,saveButton,quitButton);
 		saveBar.setLayoutY((double) WINDOW_HEIGHT - (WINDOW_HEIGHT - CANVAS_HEIGHT));
 		restartButton.setOnAction(e -> {
 			restartGame();
@@ -91,7 +92,9 @@ public class Game extends Application{
 		saveButton.setOnAction(e -> {
 			saveGame();
 		});
-		
+		quitButton.setOnAction(e -> {
+			mainmenu(stage);
+		});
 		// creates the inventory sidebar
 		inventory = new VBox();
 		root.getChildren().addAll(message,saveBar,inventory);
