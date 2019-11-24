@@ -30,6 +30,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/** The game class, controls all of the menus and the javafx 
+ * controls the gui for the user*/
 public class Game extends Application{
 	// All of the global variables
 	// The size of the window and canvas for the level
@@ -40,8 +42,8 @@ public class Game extends Application{
 	// Changable stats based on the settings of the game
 	private static int GRID_CELL_WIDTH = 50;
 	private static int GRID_CELL_HEIGHT = 50;
-	private static int FINAL_LEVEL_NUMBER = 7;
-	private static int INVENTORY_SIZE = 7;
+	private static int FINAL_LEVEL_NUMBER = 10;
+	private static int INVENTORY_SIZE = 8;
 	// Attributes that are called in mutiple disjoint functions
 	private Level level;
 	private Player player;
@@ -54,7 +56,8 @@ public class Game extends Application{
 	private long startTime;
 	private long endTime;
 	
-	// The start function, sets the name of the game and then loads profiles or creates a new profile, 
+	// The start function, sets the name of the game and then loads profiles or creates a new profile,
+	/** The inital method for the game, ensures a user exist before entering the main menu*/
 	public void start(Stage stage) {
 		stage.setTitle("Pac Quest");
 		loadProfiles();
@@ -66,6 +69,7 @@ public class Game extends Application{
 	}
 	
 	// The main game screen, starts the timer and sets the message box, save bar and restart buttons and the inventory screen	
+	/** The game screen, displays the map of all the tiles and the inventory/buttons*/
 	public void game(Stage stage) {
 		startTime = System.currentTimeMillis();
 		// creates the canvas used for all the images of the tiles and places it on the pane along with the help message
@@ -110,6 +114,7 @@ public class Game extends Application{
 	}
 
 	// Loads all of the profiles from the save file
+	/** Reads a user from the userlist as the current user*/
 	public void loadProfiles() {
 		// Creates an arraylist based on all the userprofiles from the savefile
 		users = new ArrayList<userProfile>();
@@ -127,6 +132,7 @@ public class Game extends Application{
 	}
 	
 	// The method to create a new profile
+	/** Creates a new profile in the list of users and adds it to the save file*/
 	private void createNewProfile(Stage stage) {
 		// creating the new profile menu
 		VBox menu = new VBox();
@@ -193,6 +199,7 @@ public class Game extends Application{
 	}
 
 	// The main menu function 
+	/** Creates the main menu of the game*/
 	public void mainmenu(Stage stage) {
 		// creates the main menu
 		BorderPane loadFile = new BorderPane();
@@ -255,6 +262,8 @@ public class Game extends Application{
 	}
 
 	// The function to load the daily message
+	/** Loads a given website, solves a string cipher puzzle and loads a second url
+	 * with the solved puzzle to obtain a message and displays it on the main menu*/
 	private Label loadDailyMessage(Label dailyMessage) {
 		try {
 			URL url = new URL("http://cswebcat.swan.ac.uk/puzzle");
@@ -301,6 +310,7 @@ public class Game extends Application{
 	}
 
 	// the function that loads the save into a new level
+	/** Creates a new level from the saved data of the user and sets the players stats to the saved state of the player*/
 	private void loadSave(int selectedIndex,Stage stage) {
 		if (selectedIndex < 0) {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -346,6 +356,7 @@ public class Game extends Application{
 	}
 	
 	// the user menu that shows the level select screen
+	/** Displays all the levels the user can select*/
 	private void userMenu(Stage stage) {
 		BorderPane loadLevel = new BorderPane();
 		HBox levelButtons = new HBox();
@@ -395,6 +406,7 @@ public class Game extends Application{
 	}
 
 	// the screen that displays the high scores
+	/** Displays the top high scores*/
 	private void displayHighScores(Stage stage,int Index) {
 		// creates an array of all the users times for the selected level and sorts them from higest to lowest
 		int amountOfScores = 3; // THIS CAN BE CHANGED TO HOW EVER MANY TOP SCORES YOU WANT TO SHOW
@@ -438,6 +450,7 @@ public class Game extends Application{
 	}
 
 	// function that updates profiles after levels are completed or new userprofiles are made
+	/** Write information about all users into a savefile*/
 	private void updateProfiles() {
 		try {
 			if (users.isEmpty()) {
@@ -460,6 +473,7 @@ public class Game extends Application{
 	}
 
 	// the save game function, a file writer
+	/** Writes a quick save file that can be continued from by the user*/
 	private void saveGame() {
 		endTime = System.currentTimeMillis() - startTime;
 		int finalTime = (int) Math.round(endTime/1000F) + timeDelay;
@@ -531,6 +545,10 @@ public class Game extends Application{
 							line = line + " ";
 							helpTile tile = (helpTile) level.getTiles()[x][y];
 							extraTiles.add(Integer.toString(x)+","+Integer.toString(y)+",HELPTILE"+","+tile.getHelpMessage());
+						} if (level.getTiles()[x][y] instanceof crackedFloor) {
+							line = line + " ";
+							crackedFloor tile = (crackedFloor) level.getTiles()[x][y];
+							extraTiles.add(Integer.toString(x)+","+Integer.toString(y)+",CRACKEDFLOOR"+","+tile.isPassable());
 						}
 					} Files.write(Paths.get(currentUser.getUserName()+"levelsave.txt"), (line).getBytes(), StandardOpenOption.APPEND);
 					Files.write(Paths.get(currentUser.getUserName()+"levelsave.txt"),System.getProperty("line.separator").getBytes(), StandardOpenOption.APPEND);
@@ -562,6 +580,7 @@ public class Game extends Application{
 	}
 
 	// restarts the game
+	/** The function to restart the game state*/
 	private void restartGame() {
 		this.level = new Level(level.getFileName());
 		this.player = new Player(level);
@@ -569,6 +588,7 @@ public class Game extends Application{
 	}
 
 	// draws on the canvas all the tiles, enemies and the player
+	/** Draws all tiles, enemies and the player onto the canvas*/
 	public void draw() {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -628,6 +648,7 @@ public class Game extends Application{
 	}
 	
 	// when a key is pressed in game
+	/** Event when a key is pressed*/
 	public void processKeyEvent(KeyEvent event,Stage stage) {
 		message.getChildren().clear();
 		switch (event.getCode()) {

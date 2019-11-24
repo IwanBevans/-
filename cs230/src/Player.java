@@ -49,6 +49,8 @@ public class Player {
 				if (door.isLocked()) {
 					locationY = locationY - 1;
 				}
+			} if (level.getTiles()[locationX][locationY] instanceof crackedFloor) {
+				level.getTiles()[locationX][locationY].setImage(new Image("/brokefloor.png"));
 			}
 			locationY = locationY + 1;
 		}
@@ -71,6 +73,8 @@ public class Player {
 				if (door.isLocked()) {
 					locationY = locationY + 1;
 				}
+			} if (level.getTiles()[locationX][locationY] instanceof crackedFloor) {
+				level.getTiles()[locationX][locationY].setImage(new Image("/brokefloor.png"));
 			}
 			locationY = locationY - 1;
 		}
@@ -93,6 +97,8 @@ public class Player {
 				if (door.isLocked()) {
 					locationX = locationX - 1;
 				}
+			} if (level.getTiles()[locationX][locationY] instanceof crackedFloor) {
+				level.getTiles()[locationX][locationY].setImage(new Image("/brokefloor.png"));
 			}
 			locationX = locationX + 1;
 		}
@@ -115,6 +121,8 @@ public class Player {
 				if (door.isLocked()) {
 					locationX = locationX + 1;
 				}
+			} if (level.getTiles()[locationX][locationY] instanceof crackedFloor) {
+				level.getTiles()[locationX][locationY].setImage(new Image("/brokefloor.png"));
 			}
 			locationX = locationX - 1;
 		}

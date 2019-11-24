@@ -1,18 +1,18 @@
 15,14
 ###############
-#           R@#
-#           ###
-##B###        #
-#    #        #
+#WWWWWWW    R@#
+#WWWWWWW    ###
+#B####WW      #
+#    #WW      #
 #    #        #
 #    #    r   #
 #    #        #
 #    ####   ###
 #    # wW   WW#
 #    ####   #W#
+# b          W#
 #            W#
-#b           W#
 ###############
 6,9,START
-8,7,SMARTENEMY
-12,7,SMARTENEMY
+8,7,DUMBENEMY
+11,7,SMARTENEMY

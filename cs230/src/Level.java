@@ -21,7 +21,7 @@ public class Level {
 		try { 
 			File file = new File(fileName);
 			Scanner input = new Scanner(file);
-			input.useDelimiter("\r\n|,");
+			input.useDelimiter("\r\n|\n|,");
 			if (!input.hasNextInt()) {
 				fileName = input.next();
 			}
@@ -89,6 +89,8 @@ public class Level {
 					allEnemies.add(new smartEnemy(x,y));
 				} if (tileType.equals("HELPTILE")) {
 					tiles[x][y] = new helpTile(input.next());
+				} if (tileType.equals("CRACKEDFLOOR")) {
+					tiles[x][y] = new crackedFloor(input.nextBoolean());
 				}
 			}
 			input.close();
