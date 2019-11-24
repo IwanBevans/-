@@ -12,9 +12,9 @@ import java.util.Scanner;
 public class smartEnemy extends Enemy{
 	/** The constructor for the smart enemy, take two locations as inputs*/
 	public smartEnemy(int x,int y) {
-		this.setImage(new Image("/smartenemy.png"));
-		this.setLocationX(x);
-		this.setLocationY(y);
+		setImage(new Image("/smartenemy.png"));
+		setLocationX(x);
+		setLocationY(y);
 	}
 
 	/** The movement function of the smart enemy, it uses the methods pathFinder and reconstruct
@@ -27,12 +27,16 @@ public class smartEnemy extends Enemy{
 		
 		if (path[getLocationX()+1][getLocationY()]) {
 			setLocationX(getLocationX() + 1);
+			setImage(new Image("/smartenemy_right.png"));
 		} else if (path[getLocationX()-1][getLocationY()]) {
 			setLocationX(getLocationX() - 1);
+			setImage(new Image("/smartenemy.png"));
 		} else if (path[getLocationX()][getLocationY()+1]) {
 			setLocationY(getLocationY() + 1);
+			setImage(new Image("/smartenemy_down.png"));
 		} else if (path[getLocationX()][getLocationY()-1]) {
 			setLocationY(getLocationY() - 1);
+			setImage(new Image("/smartenemy_up.png"));
 		}
 	}
 

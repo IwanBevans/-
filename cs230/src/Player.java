@@ -51,7 +51,7 @@ public class Player {
 				}
 			} if (level.getTiles()[locationX][locationY] instanceof crackedFloor) {
 				level.getTiles()[locationX][locationY].setImage(new Image("/brokefloor.png"));
-			}
+			} setPlayerImage(new Image("/playerdown.png"));
 			locationY = locationY + 1;
 		}
 	}
@@ -75,7 +75,7 @@ public class Player {
 				}
 			} if (level.getTiles()[locationX][locationY] instanceof crackedFloor) {
 				level.getTiles()[locationX][locationY].setImage(new Image("/brokefloor.png"));
-			}
+			} setPlayerImage(new Image("/playerup.png"));
 			locationY = locationY - 1;
 		}
 	}
@@ -99,7 +99,7 @@ public class Player {
 				}
 			} if (level.getTiles()[locationX][locationY] instanceof crackedFloor) {
 				level.getTiles()[locationX][locationY].setImage(new Image("/brokefloor.png"));
-			}
+			} setPlayerImage(new Image("/player.png"));
 			locationX = locationX + 1;
 		}
 	}
@@ -123,7 +123,7 @@ public class Player {
 				}
 			} if (level.getTiles()[locationX][locationY] instanceof crackedFloor) {
 				level.getTiles()[locationX][locationY].setImage(new Image("/brokefloor.png"));
-			}
+			} setPlayerImage(new Image("/playerleft.png"));
 			locationX = locationX - 1;
 		}
 	}

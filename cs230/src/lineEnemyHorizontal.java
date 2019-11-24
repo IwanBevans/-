@@ -11,7 +11,7 @@ public class lineEnemyHorizontal extends Enemy{
 		setImage(new Image("/lineenemy.png"));
 		setLocationX(x);
 		setLocationY(y);
-		this.movingRight = true;
+		movingRight = true;
 	}
 
 	/** The momvement function of the horizontal enemy moves right untill it can not anymore and then turns left, it knows
@@ -19,12 +19,15 @@ public class lineEnemyHorizontal extends Enemy{
 	public void move(Level level,Player player) {
 		if (level.getTiles()[getLocationX()+1][getLocationY()].isPassableEnemy() && movingRight) {
 			setLocationX(getLocationX() + 1);
+			setImage(new Image("/lineenemy_right.png"));
 		} else {
 			if (level.getTiles()[getLocationX()-1][getLocationY()].isPassableEnemy()) {
 				setLocationX(getLocationX() - 1);
+				setImage(new Image("/lineenemy.png"));
 				movingRight = false;
 			} else {
 				movingRight = true;
+				setImage(new Image("/lineenemy_right.png"));
 				setLocationX(getLocationX() + 1);
 			}
 		}

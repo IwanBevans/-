@@ -11,7 +11,7 @@ public class lineEnemyVertical extends Enemy{
 		setImage(new Image("/lineenemy.png"));
 		setLocationX(x);
 		setLocationY(y);
-		this.movingUp = true;
+		movingUp = true;
 	}
 
 	/** The momvement function of the vertical enemy moves up untill it can not anymore and then turns down, it knows
@@ -19,12 +19,15 @@ public class lineEnemyVertical extends Enemy{
 	public void move(Level level,Player player) {
 		if (level.getTiles()[getLocationX()][getLocationY()-1].isPassableEnemy() && movingUp) {
 			setLocationY(getLocationY() - 1);
+			setImage(new Image("/lineenemy_up.png"));
 		} else {
 			if (level.getTiles()[getLocationX()][getLocationY()+1].isPassableEnemy()) {
 				setLocationY(getLocationY() + 1);
+				setImage(new Image("/lineenemy_down.png"));
 				movingUp = false;
 			} else {
 				movingUp = true;
+				setImage(new Image("/lineenemy_up.png"));
 				setLocationY(getLocationY() - 1);
 			}
 		}

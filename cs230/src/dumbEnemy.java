@@ -8,7 +8,7 @@ public class dumbEnemy extends Enemy{
 	public dumbEnemy(int x, int y) {
 		setLocationX(x);
 		setLocationY(y);
-		setImage(new Image("/dumbEnemy.png"));
+		setImage(new Image("/dumbenemy.png"));
 	}
 	
 	/** The dumb enemy movement function calculates the distance of the player in all four directions from the enemy and will walk
@@ -27,14 +27,18 @@ public class dumbEnemy extends Enemy{
 		} if (differenceX > differenceY) {
 			if (!isNegativeX && level.getTiles()[getLocationX()-1][getLocationY()].isPassableEnemy()) {
 				setLocationX(getLocationX() - 1);
+				setImage(new Image("/dumbenemy.png"));
 			} else if (isNegativeX && level.getTiles()[getLocationX()+1][getLocationY()].isPassableEnemy()){
 				setLocationX(getLocationX() + 1);
+				setImage(new Image("/dumbenemy_right.png"));
 			}
 		} else {
 			if (!isNegativeY && level.getTiles()[getLocationX()][getLocationY()-1].isPassableEnemy()) {
 				setLocationY(getLocationY() - 1);
+				setImage(new Image("/dumbenemy_up.png"));
 			} else if (isNegativeY && level.getTiles()[getLocationX()][getLocationY()+1].isPassableEnemy()){
 				setLocationY(getLocationY() + 1);
+				setImage(new Image("/dumbenemy_down.png"));
 			}
 		}
 	}
