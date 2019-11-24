@@ -74,7 +74,7 @@ public class Game extends Application{
 		startTime = System.currentTimeMillis();
 		// creates the canvas used for all the images of the tiles and places it on the pane along with the help message
 		message = new VBox();
-		message.setLayoutY(CANVAS_HEIGHT+GRID_CELL_HEIGHT/5);
+		message.setLayoutY(CANVAS_HEIGHT+GRID_CELL_HEIGHT/2);
 		message.setMinSize(CANVAS_WIDTH, GRID_CELL_HEIGHT*3);
 		BorderPane root = new BorderPane();
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -479,7 +479,7 @@ public class Game extends Application{
 		int finalTime = (int) Math.round(endTime/1000F) + timeDelay;
 		message.getChildren().clear();
 		Label messageText = new Label("Game has been saved");
-		messageText.setMinSize(CANVAS_WIDTH/2, 30);
+		messageText.setMinSize(GRID_CELL_WIDTH*3, GRID_CELL_HEIGHT);
 		message.getChildren().add(messageText);
 		
 			try {
@@ -658,7 +658,7 @@ public class Game extends Application{
 	    			Door door = (Door) level.getTiles()[player.getLocationX()][player.getLocationY() + 1];
 	    			if (door.isLocked()) {
 	    				Label messageText = new Label("The door is locked");
-	    				messageText.setMinSize(CANVAS_WIDTH/2, 30);
+	    				messageText.setMinSize(GRID_CELL_WIDTH*3, GRID_CELL_HEIGHT);
 	    	    		message.getChildren().add(messageText);
 	    				if (door instanceof tokenDoor) {
 	    					tokenDoor door2 = (tokenDoor) door;
@@ -675,7 +675,7 @@ public class Game extends Application{
 	    			Door door = (Door) level.getTiles()[player.getLocationX()][player.getLocationY() - 1];
 	    			if (door.isLocked()) {
 	    				Label messageText = new Label("The door is locked");
-	    				messageText.setMinSize(CANVAS_WIDTH/2, 30);
+	    				messageText.setMinSize(GRID_CELL_WIDTH*3, GRID_CELL_HEIGHT);
 	    	    		message.getChildren().add(messageText);
 	    				if (door instanceof tokenDoor) {
 	    					tokenDoor door2 = (tokenDoor) door;
@@ -692,7 +692,7 @@ public class Game extends Application{
 	    			Door door = (Door) level.getTiles()[player.getLocationX() + 1][player.getLocationY()];
 	    			if (door.isLocked()) {
 	    				Label messageText = new Label("The door is locked");
-	    				messageText.setMinSize(CANVAS_WIDTH/2, 30);
+	    				messageText.setMinSize(GRID_CELL_WIDTH*3, GRID_CELL_HEIGHT);
 	    	    		message.getChildren().add(messageText);
 	    				if (door instanceof tokenDoor) {
 	    					tokenDoor door2 = (tokenDoor) door;
@@ -709,7 +709,7 @@ public class Game extends Application{
 	    			Door door = (Door) level.getTiles()[player.getLocationX() - 1][player.getLocationY()];
 	    			if (door.isLocked()) {
 	    				Label messageText = new Label("The door is locked");
-	    				messageText.setMinSize(CANVAS_WIDTH/2, 30);
+	    				messageText.setMinSize(GRID_CELL_WIDTH*3, GRID_CELL_HEIGHT);
 	    	    		message.getChildren().add(messageText);
 	    				if (door instanceof tokenDoor) {
 	    					tokenDoor door2 = (tokenDoor) door;
