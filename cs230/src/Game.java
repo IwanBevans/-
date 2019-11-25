@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -79,7 +80,6 @@ public class Game extends Application{
 		BorderPane root = new BorderPane();
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		root.setLeft(canvas);
-		
 		// creates the savebar at the bottom of the screen and the buttons it uses
 		HBox saveBar = new HBox();
 		Button restartButton = new Button("Restart");
@@ -511,6 +511,8 @@ public class Game extends Application{
 								line = line + "t";
 							} else if (level.getTiles()[x][y] instanceof yellowKey) {
 								line = line + "y";
+							} else if (level.getTiles()[x][y] instanceof Ice) {
+								line = line + "I";
 							}
 						} if (level.getTiles()[x][y] instanceof Door) {
 							Door door = (Door) level.getTiles()[x][y];
@@ -582,6 +584,7 @@ public class Game extends Application{
 	// restarts the game
 	/** The function to restart the game state*/
 	private void restartGame() {
+		startTime = System.currentTimeMillis();
 		this.level = new Level(level.getFileName());
 		this.player = new Player(level);
 		draw();
@@ -626,7 +629,8 @@ public class Game extends Application{
 					}
 				}
 			}
-		} gc.drawImage(player.getPlayerImage(), (player.getLocationX() - maxX + (CANVAS_WIDTH/GRID_CELL_WIDTH))* GRID_CELL_WIDTH, (player.getLocationY() - maxY + (CANVAS_HEIGHT/GRID_CELL_HEIGHT))* GRID_CELL_HEIGHT);
+		} System.out.println(player.getLocationY());
+		gc.drawImage(player.getPlayerImage(), (player.getLocationX() - maxX + (CANVAS_WIDTH/GRID_CELL_WIDTH))* GRID_CELL_WIDTH, (player.getLocationY() - maxY + (CANVAS_HEIGHT/GRID_CELL_HEIGHT))* GRID_CELL_HEIGHT);
 		
 		inventory.setLayoutX(WINDOW_WIDTH - (WINDOW_WIDTH - CANVAS_WIDTH));
 		inventory.getChildren().clear();
@@ -654,6 +658,13 @@ public class Game extends Application{
 		switch (event.getCode()) {
 		    case DOWN:
 	        	player.moveDown(level);
+	        	while (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof Ice && level.getTiles()[player.getLocationX()][player.getLocationY()+1].isPassable()) {
+	        		draw();
+					try {
+						TimeUnit.MILLISECONDS.sleep(200);
+					} catch (InterruptedException e) {e.printStackTrace();}
+	        		player.moveDown(level);
+	        	}
 	        	if (level.getTiles()[player.getLocationX()][player.getLocationY() + 1] instanceof Door) {
 	    			Door door = (Door) level.getTiles()[player.getLocationX()][player.getLocationY() + 1];
 	    			if (door.isLocked()) {
@@ -671,6 +682,13 @@ public class Game extends Application{
 	        	break;	
 		    case UP:
 		    	player.moveUp(level);
+		    	while (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof Ice && level.getTiles()[player.getLocationX()][player.getLocationY()-1].isPassable()) {
+	        		draw();
+	        		try {
+	        			TimeUnit.MILLISECONDS.sleep(200);
+					} catch (InterruptedException e) {e.printStackTrace();}
+	        		player.moveUp(level);
+	        	}
 	        	if (level.getTiles()[player.getLocationX()][player.getLocationY() - 1] instanceof Door) {
 	    			Door door = (Door) level.getTiles()[player.getLocationX()][player.getLocationY() - 1];
 	    			if (door.isLocked()) {
@@ -688,6 +706,13 @@ public class Game extends Application{
 		    	break;
 		    case RIGHT:
 		    	player.moveRight(level);
+		    	while (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof Ice && level.getTiles()[player.getLocationX()+1][player.getLocationY()+1].isPassable()) {
+	        		draw();
+	        		try {
+	        			TimeUnit.MILLISECONDS.sleep(200);
+					} catch (InterruptedException e) {e.printStackTrace();}
+	        		player.moveRight(level);
+	        	}
 	        	if (level.getTiles()[player.getLocationX() + 1][player.getLocationY()] instanceof Door) {
 	    			Door door = (Door) level.getTiles()[player.getLocationX() + 1][player.getLocationY()];
 	    			if (door.isLocked()) {
@@ -705,6 +730,13 @@ public class Game extends Application{
 		    	break;
 		    case LEFT:
 		    	player.moveLeft(level);
+		    	while (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof Ice && level.getTiles()[player.getLocationX()-1][player.getLocationY()].isPassable()) {
+	        		draw();
+	        		try {
+	        			TimeUnit.MILLISECONDS.sleep(200);
+					} catch (InterruptedException e) {e.printStackTrace();}
+	        		player.moveLeft(level);
+	        	}
 		    	if (level.getTiles()[player.getLocationX() - 1][player.getLocationY()] instanceof Door) {
 	    			Door door = (Door) level.getTiles()[player.getLocationX() - 1][player.getLocationY()];
 	    			if (door.isLocked()) {

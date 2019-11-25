@@ -63,6 +63,8 @@ public class Level {
 						tiles[x][y] = new greenKeyDoor();
 					} if (line.charAt(x) == 'Y') {
 						tiles[x][y] = new yellowKeyDoor();
+					} if (line.charAt(x) == 'I') {
+						tiles[x][y] = new Ice();
 					}
 				}
 			} while (input.hasNext()) {
