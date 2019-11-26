@@ -1,0 +1,40 @@
+20,20
+####################
+#      Rr wWWW #####
+# ####### #### #####
+#     #   #  #     #
+### ### ###  #     #
+# ##### ###  ####  #
+#     # ###        #
+##    # ###      # #
+#     # ##########W#
+#     # #b#      # #
+#  #  # # ####  ## #
+#  #  # # #        #
+#  #  # #          #
+#  #  # ############
+#     # ####      f#
+#     # #### #######
+#          B     F@#
+####################
+####################
+####################
+1,1,START
+3,4,TELEPORTER,1,5
+1,5,TELEPORTER,3,4
+3,3,HORIZONTALENEMY
+3,10,WALLENEMY
+5,9,VERTICALENEMY
+1,9,VERTICALENEMY
+12,3,DUMBENEMY
+12,9,DUMBENEMY
+7,15,CRACKEDFLOOR,TRUE
+7,14,CRACKEDFLOOR,TRUE
+7,13,CRACKEDFLOOR,TRUE
+7,12,CRACKEDFLOOR,TRUE
+7,11,CRACKEDFLOOR,TRUE
+7,10,CRACKEDFLOOR,TRUE
+7,9,CRACKEDFLOOR,TRUE
+7,8,CRACKEDFLOOR,TRUE
+7,7,CRACKEDFLOOR,TRUE
+7,6,CRACKEDFLOOR,TRUE

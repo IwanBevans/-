@@ -1,0 +1,13 @@
+10,10
+##########
+#  rB    #
+#   #### #
+#   #y   #
+#   ######
+#R###  g #
+#  bY    #
+#####    #
+#@G      #
+##########
+1,1,START
+2,3,HELPTILE,Hello welcome to pac-quest. In order to finish each level you need to reach the goal. The goal is the golden glowing tile in each map. In this level you need to find the keys and open the doors in order to reach the goal. Good luck!
