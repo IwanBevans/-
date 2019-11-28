@@ -1,12 +1,15 @@
 10,10
 ##########
-# IIIIIII#
-#I       #
-#I       #
-#I       #
-#I       #
-#I       #
-#I       #
-#I       #
+# WWWWWWW#
+#wWWWWWWW#
+#WW WWWWW#
+#        #
+#WWWWWWWW#
+#WWWWWWWW#
+#WWWWWWWW#
+# W W WW@#
 ##########
 1,1,START
+8,2,SHARK
+8,7,SHARK
+1,1,HELPTILE,The green enemies are sharks. They can only move in water but be careful they can move twice as fast as normal enemies

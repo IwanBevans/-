@@ -89,6 +89,8 @@ public class Level {
 					allEnemies.add(new lineEnemyHorizontal(x,y));
 				} if (tileType.equals("SMARTENEMY")) {
 					allEnemies.add(new smartEnemy(x,y));
+				} if (tileType.equals("SHARK")) {
+					allEnemies.add(new Shark(x,y));
 				} if (tileType.equals("HELPTILE")) {
 					tiles[x][y] = new helpTile(input.next());
 				} if (tileType.equals("CRACKEDFLOOR")) {

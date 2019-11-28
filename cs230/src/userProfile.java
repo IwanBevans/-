@@ -22,7 +22,7 @@ public class userProfile {
 	/** The get info method that returns a string of the username and max level
 	 * @return String info*/
 	public String getInfo() {
-		return userName + ": Level: " + Integer.toString(maxLevel);
+		return "CURRENT LEVEL: " + Integer.toString(maxLevel);
 	}
 
 	/** Returns the userprofiles name
@@ -47,4 +47,13 @@ public class userProfile {
 	public void setMaxLevel(int maxLevel) {
 		this.maxLevel = maxLevel;
 	}
+	
+	public int getCurrentScore() {
+		int currentScore = 0;
+		for (int i = 0; i < levelTimes.size(); i++) {
+			currentScore =+ i;
+		}	
+		return 10 * currentScore;
+	}
+
 }

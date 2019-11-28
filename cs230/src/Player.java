@@ -90,7 +90,7 @@ public class Player {
 				if (level.getAllEnemies().get(x).getLocationX() == locationX+1 && level.getAllEnemies().get(x).getLocationY() == locationY) {
 					setDead(true);
 				}
-			} 
+			}
 			level.getTiles()[locationX+1][locationY].onTouch(this);
 			if (level.getTiles()[locationX+1][locationY] instanceof Door) {
 				Door door = (Door) level.getTiles()[locationX+1][locationY];
