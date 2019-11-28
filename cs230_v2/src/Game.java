@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -29,6 +30,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /** The game class, controls all of the menus and the javafx 
@@ -72,47 +74,61 @@ public class Game extends Application{
 	/** The game screen, displays the map of all the tiles and the inventory/buttons*/
 	public static void game(Stage stage) {
 		startTime = System.currentTimeMillis();
-		// creates the canvas used for all the images of the tiles and places it on the pane along with the help message
-		message = new VBox();
-		message.setLayoutY(CANVAS_HEIGHT+GRID_CELL_HEIGHT/2);
-		message.setMinSize(CANVAS_WIDTH, GRID_CELL_HEIGHT*3);
-		BorderPane root = new BorderPane();
-		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-		root.setLeft(canvas);
-		// creates the savebar at the bottom of the screen and the buttons it uses
-		HBox saveBar = new HBox();
-		Button restartButton = new Button("Restart");
-		restartButton.setMinSize((WINDOW_HEIGHT - CANVAS_HEIGHT),(WINDOW_HEIGHT - CANVAS_HEIGHT)/4);
-		Button saveButton = new Button("Quick save");
-		saveButton.setMinSize((WINDOW_HEIGHT - CANVAS_HEIGHT),(WINDOW_HEIGHT - CANVAS_HEIGHT)/4);
-		Button quitButton = new Button("Quit");
-		quitButton.setMinSize((WINDOW_HEIGHT - CANVAS_HEIGHT),(WINDOW_HEIGHT - CANVAS_HEIGHT)/4);
-		saveBar.getChildren().addAll(restartButton,saveButton,quitButton);
-		saveBar.setLayoutY((double) WINDOW_HEIGHT - (WINDOW_HEIGHT - CANVAS_HEIGHT));
-		restartButton.setOnAction(e -> {
-			restartGame();
-		});
-		saveButton.setOnAction(e -> {
-			saveGame();
-			stage.close();
-			mainmenu(stage);
-		});
-		quitButton.setOnAction(e -> {
-			stage.close();
-			mainmenu(stage);
-		});
-		// creates the inventory sidebar
-		inventory = new VBox();
-		root.getChildren().addAll(message,saveBar,inventory);
-		
-		// draws the map
-		draw();
-		
-		// creates the scene and takes key presses into account
-		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> processKeyEvent(event,stage));
-		stage.setScene(scene);
-		stage.show();
+		try {		
+			startTime = System.currentTimeMillis();
+			// creates the canvas used for all the images of the tiles and places it on the pane along with the help message
+			message = new VBox();
+			message.setLayoutY(CANVAS_HEIGHT+GRID_CELL_HEIGHT/2);
+			message.setMinSize(CANVAS_WIDTH, GRID_CELL_HEIGHT*3);
+			BorderPane root = new BorderPane();
+			root.setStyle("-fx-border-color:blue; " + "-fx-border-width: 7px; " + "-fx-background-color:black");
+			canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+			root.setLeft(canvas);
+			Font font = new Font("Broadway", 20);
+			// creates the savebar at the bottom of the screen and the buttons it uses
+			HBox saveBar = new HBox();
+			saveBar.setPadding(new Insets(10, 50, 50, 50));
+			Button restartButton = new Button("Restart");
+			restartButton.setStyle("-fx-border-color:blue; " + "-fx-border-width: 3px; " + "-fx-background-color:black; " + "-fx-text-fill:yellow;");
+			restartButton.setFont(font);
+			restartButton.setMinSize((WINDOW_HEIGHT - CANVAS_HEIGHT),(WINDOW_HEIGHT - CANVAS_HEIGHT)/4);
+			Button saveButton = new Button("Quick save");
+			saveButton.setMinSize((WINDOW_HEIGHT - CANVAS_HEIGHT),(WINDOW_HEIGHT - CANVAS_HEIGHT)/4);
+			saveButton.setStyle("-fx-border-color:blue; " + "-fx-border-width: 3px; " + "-fx-background-color:black; " + "-fx-text-fill:yellow;");
+			saveButton.setFont(font);
+			Button quitButton = new Button("Quit");
+			quitButton.setMinSize((WINDOW_HEIGHT - CANVAS_HEIGHT),(WINDOW_HEIGHT - CANVAS_HEIGHT)/4);
+			quitButton.setStyle("-fx-border-color:blue; " + "-fx-border-width: 3px; " + "-fx-background-color:black; " + "-fx-text-fill:yellow;");
+			quitButton.setFont(font);
+			saveBar.getChildren().addAll(restartButton,saveButton,quitButton);
+			saveBar.setLayoutY((double) WINDOW_HEIGHT - (WINDOW_HEIGHT - CANVAS_HEIGHT));
+			restartButton.setOnAction(e -> {
+				restartGame();
+			});
+			saveButton.setOnAction(e -> {
+				saveGame();
+				stage.close();
+				mainmenu(stage);
+			});
+			quitButton.setOnAction(e -> {
+				stage.close();
+				mainmenu(stage);
+			});
+			// creates the inventory sidebar
+			inventory = new VBox();
+			root.getChildren().addAll(message,saveBar,inventory);
+			
+			// draws the map
+			draw();
+			
+			// creates the scene and takes key presses into account
+			Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+			scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> processKeyEvent(event,stage));
+			stage.setScene(scene);
+			stage.show();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}	
 	}
 
 	// Loads all of the profiles from the save file
@@ -320,7 +336,7 @@ public class Game extends Application{
 
 	// the save game function, a file writer
 	/** Writes a quick save file that can be continued from by the user*/
-	private static void saveGame() {
+	static void saveGame() {
 		endTime = System.currentTimeMillis() - startTime;
 		int finalTime = (int) Math.round(endTime/1000F) + timeDelay;
 		message.getChildren().clear();
@@ -429,7 +445,7 @@ public class Game extends Application{
 
 	// restarts the game
 	/** The function to restart the game state*/
-	private static void restartGame() {
+	static void restartGame() {
 		startTime = System.currentTimeMillis();
 		level = new Level(level.getFileName());
 		player = new Player(level);
@@ -475,168 +491,229 @@ public class Game extends Application{
 					}
 				}
 			}
-		} gc.drawImage(player.getPlayerImage(), (player.getLocationX() - maxX + (CANVAS_WIDTH/GRID_CELL_WIDTH))* GRID_CELL_WIDTH, (player.getLocationY() - maxY + (CANVAS_HEIGHT/GRID_CELL_HEIGHT))* GRID_CELL_HEIGHT);
+		} 
+		gc.drawImage(player.getPlayerImage(), (player.getLocationX() - maxX + (CANVAS_WIDTH/GRID_CELL_WIDTH))* GRID_CELL_WIDTH, (player.getLocationY() - maxY + (CANVAS_HEIGHT/GRID_CELL_HEIGHT))* GRID_CELL_HEIGHT);
 		
 		inventory.setLayoutX(WINDOW_WIDTH - (WINDOW_WIDTH - CANVAS_WIDTH));
 		inventory.getChildren().clear();
+		Font font = new Font("Broadway", 20);
 		Label tokens = new Label("Tokens: ".concat(Integer.toString(player.getTokens())));
+		tokens.setFont(font);
+		tokens.setStyle("-fx-text-fill:yellow;");
 		tokens.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT/INVENTORY_SIZE));
 		Label redKeys = new Label("Red keys: ".concat(Integer.toString(player.getRedKeys())));
+		redKeys.setFont(font);
+		redKeys.setStyle("-fx-text-fill:yellow;");
 		redKeys.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT/INVENTORY_SIZE));
 		Label blueKeys = new Label("Blue keys: ".concat(Integer.toString(player.getBlueKeys())));
+		blueKeys.setFont(font);
+		blueKeys.setStyle("-fx-text-fill:yellow;");
 		blueKeys.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT/INVENTORY_SIZE));
 		Label greenKeys = new Label("Green keys: ".concat(Integer.toString(player.getGreenKeys())));
+		greenKeys.setFont(font);
+		greenKeys.setStyle("-fx-text-fill:yellow;");
 		greenKeys.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT/INVENTORY_SIZE));
 		Label yellowKeys = new Label("Yellow Keys: ".concat(Integer.toString(player.getYellowKeys())));
+		yellowKeys.setFont(font);
+		yellowKeys.setStyle("-fx-text-fill:yellow;");
 		yellowKeys.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT/INVENTORY_SIZE));
 		Label fireBoots = new Label("Fire Boots: ".concat(String.valueOf(player.isFireBoots())));
+		fireBoots.setFont(font);
+		fireBoots.setStyle("-fx-text-fill:yellow;");
 		fireBoots.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT/INVENTORY_SIZE));
 		Label flippers = new Label("Flippers: ".concat(String.valueOf(player.isFlippers())));
+		flippers.setFont(font);
+		flippers.setStyle("-fx-text-fill:yellow;");
 		flippers.setMinSize((WINDOW_WIDTH - CANVAS_WIDTH),(WINDOW_HEIGHT/INVENTORY_SIZE));
 		inventory.getChildren().addAll(tokens,redKeys,blueKeys,greenKeys,yellowKeys,fireBoots,flippers);
 	}
 	
 	// when a key is pressed in game
 	/** Event when a key is pressed*/
-	public static void processKeyEvent(KeyEvent event,Stage stage) {
-		message.getChildren().clear();
-		switch (event.getCode()) {
-		    case DOWN:
-	        	player.moveDown(level);
-	        	while (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof Ice && level.getTiles()[player.getLocationX()][player.getLocationY()+1].isPassable()) {
-	        		draw();
-					try {
-						TimeUnit.MILLISECONDS.sleep(200);
-					} catch (InterruptedException e) {e.printStackTrace();}
-	        		player.moveDown(level);
-	        	}
-	        	if (level.getTiles()[player.getLocationX()][player.getLocationY() + 1] instanceof Door) {
-	    			Door door = (Door) level.getTiles()[player.getLocationX()][player.getLocationY() + 1];
-	    			if (door.isLocked()) {
-	    				Label messageText = new Label("The door is locked");
-	    				messageText.setMinSize(GRID_CELL_WIDTH*3, GRID_CELL_HEIGHT);
-	    	    		message.getChildren().add(messageText);
-	    				if (door instanceof tokenDoor) {
-	    					tokenDoor door2 = (tokenDoor) door;
-	    					Label messageText2 = new Label("Requires ".concat(Integer.toString(door2.getAmount()).concat(" Token(s)")));
-	    					messageText2.setMinSize(CANVAS_WIDTH/2, 100);
-	    		    		message.getChildren().add(messageText2);
-	    				}
+	// when a key is pressed in game
+		/** Event when a key is pressed*/
+		public static void processKeyEvent(KeyEvent event,Stage stage) {
+			message.getChildren().clear();
+			switch (event.getCode()) {
+			    case DOWN:
+		        	player.moveDown(level);
+		        	while (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof Ice && level.getTiles()[player.getLocationX()][player.getLocationY()+1].isPassable()) {
+		        		draw();
+						try {
+							TimeUnit.MILLISECONDS.sleep(200);
+						} catch (InterruptedException e) {e.printStackTrace();}
+		        		player.moveDown(level);
+		        	}
+		        	if (level.getTiles()[player.getLocationX()][player.getLocationY() + 1] instanceof Door) {
+		    			Door door = (Door) level.getTiles()[player.getLocationX()][player.getLocationY() + 1];
+		    			if (door.isLocked()) {
+		    				message.setLayoutY(CANVAS_HEIGHT+GRID_CELL_HEIGHT);
+		    				Label messageText = new Label("The door is locked");
+		    				Font font = new Font("Broadway", 15);
+		    				messageText.setFont(font);
+		    				messageText.setStyle("-fx-text-fill:yellow;");
+		    				messageText.setPadding(new Insets(2,2,2,10));
+		    				messageText.setMinSize(GRID_CELL_WIDTH*4, GRID_CELL_HEIGHT);
+		    	    		message.getChildren().add(messageText);
+		    				if (door instanceof tokenDoor) {
+		    					tokenDoor door2 = (tokenDoor) door;
+		    					Label messageText2 = new Label("Requires ".concat(Integer.toString(door2.getAmount()).concat(" Token(s)")));
+		    					messageText2.setFont(font);
+		    					messageText2.setStyle("-fx-text-fill:yellow;");
+		    					messageText2.setPadding(new Insets(2,2,2,10));
+		    					messageText2.setMinSize(CANVAS_WIDTH/2, 100);
+		    		    		message.getChildren().add(messageText2);
+		    				}
+		    			}
+		    		}
+		        	break;	
+			    case UP:
+			    	player.moveUp(level);
+			    	while (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof Ice && level.getTiles()[player.getLocationX()][player.getLocationY()-1].isPassable()) {
+		        		draw();
+		        		try {
+		        			TimeUnit.MILLISECONDS.sleep(200);
+						} catch (InterruptedException e) {e.printStackTrace();}
+		        		player.moveUp(level);
+		        	}
+		        	if (level.getTiles()[player.getLocationX()][player.getLocationY() - 1] instanceof Door) {
+		    			Door door = (Door) level.getTiles()[player.getLocationX()][player.getLocationY() - 1];
+		    			if (door.isLocked()) {
+		    				message.setLayoutY(CANVAS_HEIGHT+GRID_CELL_HEIGHT);
+		    				Label messageText = new Label("The door is locked");
+		    				Font font = new Font("Broadway", 15);
+		    				messageText.setFont(font);
+		    				messageText.setStyle("-fx-text-fill:yellow;");
+		    				messageText.setPadding(new Insets(2,2,2,10));
+		    				messageText.setMinSize(GRID_CELL_WIDTH*4, GRID_CELL_HEIGHT);
+		    	    		message.getChildren().add(messageText);
+		    				if (door instanceof tokenDoor) {
+		    					tokenDoor door2 = (tokenDoor) door;
+		    					Label messageText2 = new Label("Requires ".concat(Integer.toString(door2.getAmount()).concat(" Token(s)")));
+		    					messageText2.setMinSize(CANVAS_WIDTH/2, 100);
+		    					messageText2.setFont(font);
+		    					messageText2.setStyle("-fx-text-fill:yellow;");
+		    					messageText2.setPadding(new Insets(2,2,2,10));
+		    		    		message.getChildren().add(messageText2);
+		    				}
+		    			}
+		    		}
+			    	break;
+			    case RIGHT:
+			    	player.moveRight(level);
+			    	while (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof Ice && level.getTiles()[player.getLocationX()+1][player.getLocationY()+1].isPassable()) {
+		        		draw();
+		        		try {
+		        			TimeUnit.MILLISECONDS.sleep(200);
+						} catch (InterruptedException e) {e.printStackTrace();}
+		        		player.moveRight(level);
+		        	}
+		        	if (level.getTiles()[player.getLocationX() + 1][player.getLocationY()] instanceof Door) {
+		    			Door door = (Door) level.getTiles()[player.getLocationX() + 1][player.getLocationY()];
+		    			if (door.isLocked()) {
+		    				message.setLayoutY(CANVAS_HEIGHT+GRID_CELL_HEIGHT);
+		    				Label messageText = new Label("The door is locked");
+		    				messageText.setMinSize(GRID_CELL_WIDTH*3, GRID_CELL_HEIGHT);
+		    				Font font = new Font("Broadway", 15);
+		    				messageText.setFont(font);
+		    				messageText.setStyle("-fx-text-fill:yellow;");
+		    				messageText.setPadding(new Insets(2,2,2,10));
+		    				messageText.setMinSize(GRID_CELL_WIDTH*4, GRID_CELL_HEIGHT);
+		    	    		message.getChildren().add(messageText);
+		    				if (door instanceof tokenDoor) {
+		    					tokenDoor door2 = (tokenDoor) door;
+		    					Label messageText2 = new Label("Requires ".concat(Integer.toString(door2.getAmount()).concat(" Token(s)")));
+		    					messageText2.setMinSize(CANVAS_WIDTH/2, 100);
+		    					messageText2.setFont(font);
+		    					messageText2.setStyle("-fx-text-fill:yellow;");
+		    					messageText2.setPadding(new Insets(2,2,2,10));
+		    		    		message.getChildren().add(messageText2);
+		    				}
+		    			}
+		    		}
+			    	break;
+			    case LEFT:
+			    	player.moveLeft(level);
+			    	while (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof Ice && level.getTiles()[player.getLocationX()-1][player.getLocationY()].isPassable()) {
+		        		draw();
+		        		try {
+		        			TimeUnit.MILLISECONDS.sleep(200);
+						} catch (InterruptedException e) {e.printStackTrace();}
+		        		player.moveLeft(level);
+		        	}
+			    	if (level.getTiles()[player.getLocationX() - 1][player.getLocationY()] instanceof Door) {
+		    			Door door = (Door) level.getTiles()[player.getLocationX() - 1][player.getLocationY()];
+		    			if (door.isLocked()) {
+		    				message.setLayoutY(CANVAS_HEIGHT+GRID_CELL_HEIGHT);
+		    				Label messageText = new Label("The door is locked");
+		    				Font font = new Font("Broadway", 15);
+		    				messageText.setFont(font);
+		    				messageText.setStyle("-fx-text-fill:yellow;");
+		    				messageText.setPadding(new Insets(2,2,2,10));
+		    				messageText.setMinSize(GRID_CELL_WIDTH*4, GRID_CELL_HEIGHT);
+		    	    		message.getChildren().add(messageText);
+		    				if (door instanceof tokenDoor) {
+		    					tokenDoor door2 = (tokenDoor) door;
+		    					Label messageText2 = new Label("Requires ".concat(Integer.toString(door2.getAmount()).concat(" Token(s)")));
+		    					messageText2.setMinSize(CANVAS_WIDTH/2, 100);
+		    					messageText2.setFont(font);
+		    					messageText2.setStyle("-fx-text-fill:yellow;");
+		    					messageText2.setPadding(new Insets(2,2,2,10));
+		    		    		message.getChildren().add(messageText2);
+		    				}
+		    			}
+		    		}
+			    	break;
+		        default:
+		        	break;
+			} if (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof helpTile) {
+				message.setLayoutY(CANVAS_HEIGHT+GRID_CELL_HEIGHT/2);
+				helpTile tile = (helpTile) level.getTiles()[player.getLocationX()][player.getLocationY()];
+				Label helpMessage = new Label(tile.getHelpMessage());
+				helpMessage.setMinSize(CANVAS_WIDTH/2, GRID_CELL_HEIGHT*3);
+				helpMessage.setWrapText(true);
+				Font font = new Font("Broadway", 15);
+				helpMessage.setFont(font);
+				helpMessage.setStyle("-fx-text-fill:yellow;");
+				helpMessage.setPadding(new Insets(2,2,2,10));
+				message.getChildren().add(helpMessage);
+			}
+			if (player.isDead()) {
+				message.setLayoutY(CANVAS_HEIGHT+GRID_CELL_HEIGHT);
+	    		Label messageText = new Label("You died!");
+	    		messageText.setMinSize(GRID_CELL_WIDTH*2, GRID_CELL_HEIGHT);
+	    		Font font = new Font("Broadway", 15);
+				messageText.setFont(font);
+				messageText.setStyle("-fx-text-fill:yellow;");
+				messageText.setPadding(new Insets(2,2,2,10));
+	    		message.getChildren().add(messageText);
+	    		restartGame();
+	    	} if (player.isWon()) {
+	    		endTime = System.currentTimeMillis() - startTime;
+	    		int finalTime = (int) Math.round(endTime/1000F) + timeDelay;
+	    		int levelNumber = Integer.parseInt((level.getFileName().substring(5)).substring(0,(level.getFileName().substring(5).length()-4)));
+	    		if (currentUser.getMaxLevel() == levelNumber && currentUser.getMaxLevel() < FINAL_LEVEL_NUMBER) {
+	    			currentUser.setMaxLevel(currentUser.getMaxLevel() + 1);
+	    		} 
+	    		if (currentUser.getLevelTimes().size() > levelNumber-1) {
+	    			if (currentUser.getLevelTimes().get(levelNumber-1) > finalTime) {
+	    				currentUser.getLevelTimes().set(levelNumber-1, finalTime);
 	    			}
+	    		} else {
+	    			currentUser.getLevelTimes().add(finalTime);
 	    		}
-	        	break;	
-		    case UP:
-		    	player.moveUp(level);
-		    	while (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof Ice && level.getTiles()[player.getLocationX()][player.getLocationY()-1].isPassable()) {
-	        		draw();
-	        		try {
-	        			TimeUnit.MILLISECONDS.sleep(200);
-					} catch (InterruptedException e) {e.printStackTrace();}
-	        		player.moveUp(level);
-	        	}
-	        	if (level.getTiles()[player.getLocationX()][player.getLocationY() - 1] instanceof Door) {
-	    			Door door = (Door) level.getTiles()[player.getLocationX()][player.getLocationY() - 1];
-	    			if (door.isLocked()) {
-	    				Label messageText = new Label("The door is locked");
-	    				messageText.setMinSize(GRID_CELL_WIDTH*3, GRID_CELL_HEIGHT);
-	    	    		message.getChildren().add(messageText);
-	    				if (door instanceof tokenDoor) {
-	    					tokenDoor door2 = (tokenDoor) door;
-	    					Label messageText2 = new Label("Requires ".concat(Integer.toString(door2.getAmount()).concat(" Token(s)")));
-	    					messageText2.setMinSize(CANVAS_WIDTH/2, 100);
-	    		    		message.getChildren().add(messageText2);
-	    				}
-	    			}
-	    		}
-		    	break;
-		    case RIGHT:
-		    	player.moveRight(level);
-		    	while (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof Ice && level.getTiles()[player.getLocationX()+1][player.getLocationY()+1].isPassable()) {
-	        		draw();
-	        		try {
-	        			TimeUnit.MILLISECONDS.sleep(200);
-					} catch (InterruptedException e) {e.printStackTrace();}
-	        		player.moveRight(level);
-	        	}
-	        	if (level.getTiles()[player.getLocationX() + 1][player.getLocationY()] instanceof Door) {
-	    			Door door = (Door) level.getTiles()[player.getLocationX() + 1][player.getLocationY()];
-	    			if (door.isLocked()) {
-	    				Label messageText = new Label("The door is locked");
-	    				messageText.setMinSize(GRID_CELL_WIDTH*3, GRID_CELL_HEIGHT);
-	    	    		message.getChildren().add(messageText);
-	    				if (door instanceof tokenDoor) {
-	    					tokenDoor door2 = (tokenDoor) door;
-	    					Label messageText2 = new Label("Requires ".concat(Integer.toString(door2.getAmount()).concat(" Token(s)")));
-	    					messageText2.setMinSize(CANVAS_WIDTH/2, 100);
-	    		    		message.getChildren().add(messageText2);
-	    				}
-	    			}
-	    		}
-		    	break;
-		    case LEFT:
-		    	player.moveLeft(level);
-		    	while (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof Ice && level.getTiles()[player.getLocationX()-1][player.getLocationY()].isPassable()) {
-	        		draw();
-	        		try {
-	        			TimeUnit.MILLISECONDS.sleep(200);
-					} catch (InterruptedException e) {e.printStackTrace();}
-	        		player.moveLeft(level);
-	        	}
-		    	if (level.getTiles()[player.getLocationX() - 1][player.getLocationY()] instanceof Door) {
-	    			Door door = (Door) level.getTiles()[player.getLocationX() - 1][player.getLocationY()];
-	    			if (door.isLocked()) {
-	    				Label messageText = new Label("The door is locked");
-	    				messageText.setMinSize(GRID_CELL_WIDTH*3, GRID_CELL_HEIGHT);
-	    	    		message.getChildren().add(messageText);
-	    				if (door instanceof tokenDoor) {
-	    					tokenDoor door2 = (tokenDoor) door;
-	    					Label messageText2 = new Label("Requires ".concat(Integer.toString(door2.getAmount()).concat(" Token(s)")));
-	    					messageText2.setMinSize(CANVAS_WIDTH/2, 100);
-	    		    		message.getChildren().add(messageText2);
-	    				}
-	    			}
-	    		}
-		    	break;
-	        default:
-	        	break;
-		} if (level.getTiles()[player.getLocationX()][player.getLocationY()] instanceof helpTile) {
-			helpTile tile = (helpTile) level.getTiles()[player.getLocationX()][player.getLocationY()];
-			Label helpMessage = new Label(tile.getHelpMessage());
-			helpMessage.setMinSize(CANVAS_WIDTH/2, GRID_CELL_HEIGHT*3);
-			helpMessage.setWrapText(true);
-			message.getChildren().add(helpMessage);
+	    		int savedIndex = users.indexOf(currentUser);
+	    		updateProfiles();
+	    		loadProfiles();
+	    		currentUser = users.get(savedIndex);
+	    		stage.close();
+	    		Game.selectLevel(stage);
+	    	} 
+			draw();
+			event.consume();
 		}
-		if (player.isDead()) {
-    		Label messageText = new Label("You died!");
-    		messageText.setMinSize(GRID_CELL_WIDTH*2, GRID_CELL_HEIGHT);
-    		message.getChildren().add(messageText);
-    		restartGame();
-    	} if (player.isWon()) {
-    		endTime = System.currentTimeMillis() - startTime;
-    		int finalTime = (int) Math.round(endTime/1000F) + timeDelay;
-    		int levelNumber = Integer.parseInt((level.getFileName().substring(5)).substring(0,(level.getFileName().substring(5).length()-4)));
-    		if (currentUser.getMaxLevel() == levelNumber && currentUser.getMaxLevel() < FINAL_LEVEL_NUMBER) {
-    			currentUser.setMaxLevel(currentUser.getMaxLevel() + 1);
-    		} 
-    		if (currentUser.getLevelTimes().size() > levelNumber-1) {
-    			if (currentUser.getLevelTimes().get(levelNumber-1) > finalTime) {
-    				currentUser.getLevelTimes().set(levelNumber-1, finalTime);
-    			}
-    		} else {
-    			currentUser.getLevelTimes().add(finalTime);
-    		}
-    		int savedIndex = users.indexOf(currentUser);
-    		updateProfiles();
-    		loadProfiles();
-    		currentUser = users.get(savedIndex);
-    		stage.close();
-    		Game.selectLevel(stage);
-    	} 
-		draw();
-		event.consume();
+		
+		public static void main(String[] args) {
+			launch(args);
+		}
 	}
-	
-	public static void main(String[] args) {
-		launch(args);
-	}
-}

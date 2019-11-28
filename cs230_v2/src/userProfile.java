@@ -53,7 +53,7 @@ public class userProfile {
 		for (int i = 0; i < levelTimes.size(); i++) {
 			currentScore =+ i;
 		}	
-		return currentScore;
+		return 10 * currentScore;
 	}
 
 }
